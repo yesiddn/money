@@ -1,0 +1,1792 @@
+[
+  {
+    "model": "currencies.currency",
+    "pk": "AFN",
+    "fields": {
+      "name": "Afghani",
+      "numeric_code": "971",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "EUR",
+    "fields": {
+      "name": "Euro",
+      "numeric_code": "978",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "ALL",
+    "fields": {
+      "name": "Lek",
+      "numeric_code": "008",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "DZD",
+    "fields": {
+      "name": "Algerian Dinar",
+      "numeric_code": "012",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "USD",
+    "fields": {
+      "name": "US Dollar",
+      "numeric_code": "840",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "AOA",
+    "fields": {
+      "name": "Kwanza",
+      "numeric_code": "973",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XCD",
+    "fields": {
+      "name": "East Caribbean Dollar",
+      "numeric_code": "951",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XAD",
+    "fields": {
+      "name": "Arab Accounting Dinar",
+      "numeric_code": "396",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "ARS",
+    "fields": {
+      "name": "Argentine Peso",
+      "numeric_code": "032",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "AMD",
+    "fields": {
+      "name": "Armenian Dram",
+      "numeric_code": "051",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "AWG",
+    "fields": {
+      "name": "Aruban Florin",
+      "numeric_code": "533",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "AUD",
+    "fields": {
+      "name": "Australian Dollar",
+      "numeric_code": "036",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "AZN",
+    "fields": {
+      "name": "Azerbaijan Manat",
+      "numeric_code": "944",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BSD",
+    "fields": {
+      "name": "Bahamian Dollar",
+      "numeric_code": "044",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BHD",
+    "fields": {
+      "name": "Bahraini Dinar",
+      "numeric_code": "048",
+      "minor_unit": 3,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BDT",
+    "fields": {
+      "name": "Taka",
+      "numeric_code": "050",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BBD",
+    "fields": {
+      "name": "Barbados Dollar",
+      "numeric_code": "052",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BYN",
+    "fields": {
+      "name": "Belarusian Ruble",
+      "numeric_code": "933",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BZD",
+    "fields": {
+      "name": "Belize Dollar",
+      "numeric_code": "084",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XOF",
+    "fields": {
+      "name": "CFA Franc BCEAO",
+      "numeric_code": "952",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BMD",
+    "fields": {
+      "name": "Bermudian Dollar",
+      "numeric_code": "060",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "INR",
+    "fields": {
+      "name": "Indian Rupee",
+      "numeric_code": "356",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BTN",
+    "fields": {
+      "name": "Ngultrum",
+      "numeric_code": "064",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BOB",
+    "fields": {
+      "name": "Boliviano",
+      "numeric_code": "068",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BOV",
+    "fields": {
+      "name": "Mvdol",
+      "numeric_code": "984",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BAM",
+    "fields": {
+      "name": "Convertible Mark",
+      "numeric_code": "977",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BWP",
+    "fields": {
+      "name": "Pula",
+      "numeric_code": "072",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "NOK",
+    "fields": {
+      "name": "Norwegian Krone",
+      "numeric_code": "578",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BRL",
+    "fields": {
+      "name": "Brazilian Real",
+      "numeric_code": "986",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BND",
+    "fields": {
+      "name": "Brunei Dollar",
+      "numeric_code": "096",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BGN",
+    "fields": {
+      "name": "Bulgarian Lev",
+      "numeric_code": "975",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "BIF",
+    "fields": {
+      "name": "Burundi Franc",
+      "numeric_code": "108",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "CVE",
+    "fields": {
+      "name": "Cabo Verde Escudo",
+      "numeric_code": "132",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "KHR",
+    "fields": {
+      "name": "Riel",
+      "numeric_code": "116",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XAF",
+    "fields": {
+      "name": "CFA Franc BEAC",
+      "numeric_code": "950",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "CAD",
+    "fields": {
+      "name": "Canadian Dollar",
+      "numeric_code": "124",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "KYD",
+    "fields": {
+      "name": "Cayman Islands Dollar",
+      "numeric_code": "136",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "CLP",
+    "fields": {
+      "name": "Chilean Peso",
+      "numeric_code": "152",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "CLF",
+    "fields": {
+      "name": "Unidad de Fomento",
+      "numeric_code": "990",
+      "minor_unit": 4,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "CNY",
+    "fields": {
+      "name": "Yuan Renminbi",
+      "numeric_code": "156",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "COP",
+    "fields": {
+      "name": "Colombian Peso",
+      "numeric_code": "170",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "COU",
+    "fields": {
+      "name": "Unidad de Valor Real",
+      "numeric_code": "970",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "KMF",
+    "fields": {
+      "name": "Comorian Franc",
+      "numeric_code": "174",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "CDF",
+    "fields": {
+      "name": "Congolese Franc",
+      "numeric_code": "976",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "NZD",
+    "fields": {
+      "name": "New Zealand Dollar",
+      "numeric_code": "554",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "CRC",
+    "fields": {
+      "name": "Costa Rican Colon",
+      "numeric_code": "188",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "CUP",
+    "fields": {
+      "name": "Cuban Peso",
+      "numeric_code": "192",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XCG",
+    "fields": {
+      "name": "Caribbean Guilder",
+      "numeric_code": "532",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "CZK",
+    "fields": {
+      "name": "Czech Koruna",
+      "numeric_code": "203",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "DKK",
+    "fields": {
+      "name": "Danish Krone",
+      "numeric_code": "208",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "DJF",
+    "fields": {
+      "name": "Djibouti Franc",
+      "numeric_code": "262",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "DOP",
+    "fields": {
+      "name": "Dominican Peso",
+      "numeric_code": "214",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "EGP",
+    "fields": {
+      "name": "Egyptian Pound",
+      "numeric_code": "818",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "SVC",
+    "fields": {
+      "name": "El Salvador Colon",
+      "numeric_code": "222",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "ERN",
+    "fields": {
+      "name": "Nakfa",
+      "numeric_code": "232",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "SZL",
+    "fields": {
+      "name": "Lilangeni",
+      "numeric_code": "748",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "ETB",
+    "fields": {
+      "name": "Ethiopian Birr",
+      "numeric_code": "230",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "FKP",
+    "fields": {
+      "name": "Falkland Islands Pound",
+      "numeric_code": "238",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "FJD",
+    "fields": {
+      "name": "Fiji Dollar",
+      "numeric_code": "242",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XPF",
+    "fields": {
+      "name": "CFP Franc",
+      "numeric_code": "953",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "GMD",
+    "fields": {
+      "name": "Dalasi",
+      "numeric_code": "270",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "GEL",
+    "fields": {
+      "name": "Lari",
+      "numeric_code": "981",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "GHS",
+    "fields": {
+      "name": "Ghana Cedi",
+      "numeric_code": "936",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "GIP",
+    "fields": {
+      "name": "Gibraltar Pound",
+      "numeric_code": "292",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "GTQ",
+    "fields": {
+      "name": "Quetzal",
+      "numeric_code": "320",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "GBP",
+    "fields": {
+      "name": "Pound Sterling",
+      "numeric_code": "826",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "GNF",
+    "fields": {
+      "name": "Guinean Franc",
+      "numeric_code": "324",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "GYD",
+    "fields": {
+      "name": "Guyana Dollar",
+      "numeric_code": "328",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "HTG",
+    "fields": {
+      "name": "Gourde",
+      "numeric_code": "332",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "HNL",
+    "fields": {
+      "name": "Lempira",
+      "numeric_code": "340",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "HKD",
+    "fields": {
+      "name": "Hong Kong Dollar",
+      "numeric_code": "344",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "HUF",
+    "fields": {
+      "name": "Forint",
+      "numeric_code": "348",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "ISK",
+    "fields": {
+      "name": "Iceland Krona",
+      "numeric_code": "352",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "IDR",
+    "fields": {
+      "name": "Rupiah",
+      "numeric_code": "360",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XDR",
+    "fields": {
+      "name": "SDR (Special Drawing Right)",
+      "numeric_code": "960",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "IRR",
+    "fields": {
+      "name": "Iranian Rial",
+      "numeric_code": "364",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "IQD",
+    "fields": {
+      "name": "Iraqi Dinar",
+      "numeric_code": "368",
+      "minor_unit": 3,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "ILS",
+    "fields": {
+      "name": "New Israeli Sheqel",
+      "numeric_code": "376",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "JMD",
+    "fields": {
+      "name": "Jamaican Dollar",
+      "numeric_code": "388",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "JPY",
+    "fields": {
+      "name": "Yen",
+      "numeric_code": "392",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "JOD",
+    "fields": {
+      "name": "Jordanian Dinar",
+      "numeric_code": "400",
+      "minor_unit": 3,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "KZT",
+    "fields": {
+      "name": "Tenge",
+      "numeric_code": "398",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "KES",
+    "fields": {
+      "name": "Kenyan Shilling",
+      "numeric_code": "404",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "KPW",
+    "fields": {
+      "name": "North Korean Won",
+      "numeric_code": "408",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "KRW",
+    "fields": {
+      "name": "Won",
+      "numeric_code": "410",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "KWD",
+    "fields": {
+      "name": "Kuwaiti Dinar",
+      "numeric_code": "414",
+      "minor_unit": 3,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "KGS",
+    "fields": {
+      "name": "Som",
+      "numeric_code": "417",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "LAK",
+    "fields": {
+      "name": "Lao Kip",
+      "numeric_code": "418",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "LBP",
+    "fields": {
+      "name": "Lebanese Pound",
+      "numeric_code": "422",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "LSL",
+    "fields": {
+      "name": "Loti",
+      "numeric_code": "426",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "ZAR",
+    "fields": {
+      "name": "Rand",
+      "numeric_code": "710",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "LRD",
+    "fields": {
+      "name": "Liberian Dollar",
+      "numeric_code": "430",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "LYD",
+    "fields": {
+      "name": "Libyan Dinar",
+      "numeric_code": "434",
+      "minor_unit": 3,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "CHF",
+    "fields": {
+      "name": "Swiss Franc",
+      "numeric_code": "756",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "MOP",
+    "fields": {
+      "name": "Pataca",
+      "numeric_code": "446",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "MKD",
+    "fields": {
+      "name": "Denar",
+      "numeric_code": "807",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "MGA",
+    "fields": {
+      "name": "Malagasy Ariary",
+      "numeric_code": "969",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "MWK",
+    "fields": {
+      "name": "Malawi Kwacha",
+      "numeric_code": "454",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "MYR",
+    "fields": {
+      "name": "Malaysian Ringgit",
+      "numeric_code": "458",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "MVR",
+    "fields": {
+      "name": "Rufiyaa",
+      "numeric_code": "462",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "MRU",
+    "fields": {
+      "name": "Ouguiya",
+      "numeric_code": "929",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "MUR",
+    "fields": {
+      "name": "Mauritius Rupee",
+      "numeric_code": "480",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XUA",
+    "fields": {
+      "name": "ADB Unit of Account",
+      "numeric_code": "965",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "MXN",
+    "fields": {
+      "name": "Mexican Peso",
+      "numeric_code": "484",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "MXV",
+    "fields": {
+      "name": "Mexican Unidad de Inversion (UDI)",
+      "numeric_code": "979",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "MDL",
+    "fields": {
+      "name": "Moldovan Leu",
+      "numeric_code": "498",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "MNT",
+    "fields": {
+      "name": "Tugrik",
+      "numeric_code": "496",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "MAD",
+    "fields": {
+      "name": "Moroccan Dirham",
+      "numeric_code": "504",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "MZN",
+    "fields": {
+      "name": "Mozambique Metical",
+      "numeric_code": "943",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "MMK",
+    "fields": {
+      "name": "Kyat",
+      "numeric_code": "104",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "NAD",
+    "fields": {
+      "name": "Namibia Dollar",
+      "numeric_code": "516",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "NPR",
+    "fields": {
+      "name": "Nepalese Rupee",
+      "numeric_code": "524",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "NIO",
+    "fields": {
+      "name": "Cordoba Oro",
+      "numeric_code": "558",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "NGN",
+    "fields": {
+      "name": "Naira",
+      "numeric_code": "566",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "OMR",
+    "fields": {
+      "name": "Rial Omani",
+      "numeric_code": "512",
+      "minor_unit": 3,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "PKR",
+    "fields": {
+      "name": "Pakistan Rupee",
+      "numeric_code": "586",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "PAB",
+    "fields": {
+      "name": "Balboa",
+      "numeric_code": "590",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "PGK",
+    "fields": {
+      "name": "Kina",
+      "numeric_code": "598",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "PYG",
+    "fields": {
+      "name": "Guarani",
+      "numeric_code": "600",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "PEN",
+    "fields": {
+      "name": "Sol",
+      "numeric_code": "604",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "PHP",
+    "fields": {
+      "name": "Philippine Peso",
+      "numeric_code": "608",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "PLN",
+    "fields": {
+      "name": "Zloty",
+      "numeric_code": "985",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "QAR",
+    "fields": {
+      "name": "Qatari Rial",
+      "numeric_code": "634",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "RON",
+    "fields": {
+      "name": "Romanian Leu",
+      "numeric_code": "946",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "RUB",
+    "fields": {
+      "name": "Russian Ruble",
+      "numeric_code": "643",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "RWF",
+    "fields": {
+      "name": "Rwanda Franc",
+      "numeric_code": "646",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "SHP",
+    "fields": {
+      "name": "Saint Helena Pound",
+      "numeric_code": "654",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "WST",
+    "fields": {
+      "name": "Tala",
+      "numeric_code": "882",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "STN",
+    "fields": {
+      "name": "Dobra",
+      "numeric_code": "930",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "SAR",
+    "fields": {
+      "name": "Saudi Riyal",
+      "numeric_code": "682",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "RSD",
+    "fields": {
+      "name": "Serbian Dinar",
+      "numeric_code": "941",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "SCR",
+    "fields": {
+      "name": "Seychelles Rupee",
+      "numeric_code": "690",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "SLE",
+    "fields": {
+      "name": "Leone",
+      "numeric_code": "925",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "SGD",
+    "fields": {
+      "name": "Singapore Dollar",
+      "numeric_code": "702",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XSU",
+    "fields": {
+      "name": "Sucre",
+      "numeric_code": "994",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "SBD",
+    "fields": {
+      "name": "Solomon Islands Dollar",
+      "numeric_code": "090",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "SOS",
+    "fields": {
+      "name": "Somali Shilling",
+      "numeric_code": "706",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "SSP",
+    "fields": {
+      "name": "South Sudanese Pound",
+      "numeric_code": "728",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "LKR",
+    "fields": {
+      "name": "Sri Lanka Rupee",
+      "numeric_code": "144",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "SDG",
+    "fields": {
+      "name": "Sudanese Pound",
+      "numeric_code": "938",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "SRD",
+    "fields": {
+      "name": "Surinam Dollar",
+      "numeric_code": "968",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "SEK",
+    "fields": {
+      "name": "Swedish Krona",
+      "numeric_code": "752",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "CHE",
+    "fields": {
+      "name": "WIR Euro",
+      "numeric_code": "947",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "CHW",
+    "fields": {
+      "name": "WIR Franc",
+      "numeric_code": "948",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "SYP",
+    "fields": {
+      "name": "Syrian Pound",
+      "numeric_code": "760",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "TWD",
+    "fields": {
+      "name": "New Taiwan Dollar",
+      "numeric_code": "901",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "TJS",
+    "fields": {
+      "name": "Somoni",
+      "numeric_code": "972",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "TZS",
+    "fields": {
+      "name": "Tanzanian Shilling",
+      "numeric_code": "834",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "THB",
+    "fields": {
+      "name": "Baht",
+      "numeric_code": "764",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "TOP",
+    "fields": {
+      "name": "Pa’anga",
+      "numeric_code": "776",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "TTD",
+    "fields": {
+      "name": "Trinidad and Tobago Dollar",
+      "numeric_code": "780",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "TND",
+    "fields": {
+      "name": "Tunisian Dinar",
+      "numeric_code": "788",
+      "minor_unit": 3,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "TRY",
+    "fields": {
+      "name": "Turkish Lira",
+      "numeric_code": "949",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "TMT",
+    "fields": {
+      "name": "Turkmenistan New Manat",
+      "numeric_code": "934",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "UGX",
+    "fields": {
+      "name": "Uganda Shilling",
+      "numeric_code": "800",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "UAH",
+    "fields": {
+      "name": "Hryvnia",
+      "numeric_code": "980",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "AED",
+    "fields": {
+      "name": "UAE Dirham",
+      "numeric_code": "784",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "USN",
+    "fields": {
+      "name": "US Dollar (Next day)",
+      "numeric_code": "997",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "UYU",
+    "fields": {
+      "name": "Peso Uruguayo",
+      "numeric_code": "858",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "UYI",
+    "fields": {
+      "name": "Uruguay Peso en Unidades Indexadas (UI)",
+      "numeric_code": "940",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "UYW",
+    "fields": {
+      "name": "Unidad Previsional",
+      "numeric_code": "927",
+      "minor_unit": 4,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "UZS",
+    "fields": {
+      "name": "Uzbekistan Sum",
+      "numeric_code": "860",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "VUV",
+    "fields": {
+      "name": "Vatu",
+      "numeric_code": "548",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "VES",
+    "fields": {
+      "name": "Bolívar Soberano",
+      "numeric_code": "928",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "VED",
+    "fields": {
+      "name": "Bolívar Soberano",
+      "numeric_code": "926",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "VND",
+    "fields": {
+      "name": "Dong",
+      "numeric_code": "704",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "YER",
+    "fields": {
+      "name": "Yemeni Rial",
+      "numeric_code": "886",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "ZMW",
+    "fields": {
+      "name": "Zambian Kwacha",
+      "numeric_code": "967",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "ZWG",
+    "fields": {
+      "name": "Zimbabwe Gold",
+      "numeric_code": "924",
+      "minor_unit": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XBA",
+    "fields": {
+      "name": "Bond Markets Unit European Composite Unit (EURCO)",
+      "numeric_code": "955",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XBB",
+    "fields": {
+      "name": "Bond Markets Unit European Monetary Unit (E.M.U.-6)",
+      "numeric_code": "956",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XBC",
+    "fields": {
+      "name": "Bond Markets Unit European Unit of Account 9 (E.U.A.-9)",
+      "numeric_code": "957",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XBD",
+    "fields": {
+      "name": "Bond Markets Unit European Unit of Account 17 (E.U.A.-17)",
+      "numeric_code": "958",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XTS",
+    "fields": {
+      "name": "Codes specifically reserved for testing purposes",
+      "numeric_code": "963",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XXX",
+    "fields": {
+      "name": "The codes assigned for transactions where no currency is involved",
+      "numeric_code": "999",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XAU",
+    "fields": {
+      "name": "Gold",
+      "numeric_code": "959",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XPD",
+    "fields": {
+      "name": "Palladium",
+      "numeric_code": "964",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XPT",
+    "fields": {
+      "name": "Platinum",
+      "numeric_code": "962",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  },
+  {
+    "model": "currencies.currency",
+    "pk": "XAG",
+    "fields": {
+      "name": "Silver",
+      "numeric_code": "961",
+      "minor_unit": 0,
+      "is_active": true
+    }
+  }
+]
