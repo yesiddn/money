@@ -22,10 +22,11 @@ def create_superuser():
 
     email = os.getenv("DJANGO_SUPERUSER_EMAIL")
     password = os.getenv("DJANGO_SUPERUSER_PASSWORD")
+    username = os.getenv("DJANGO_SUPERUSER_USERNAME", "admin")
 
-    if not email or not password:
+    if not email or not password or not username:
         print(
-            "Error: Las variables de entorno DJANGO_SUPERUSER_EMAIL y DJANGO_SUPERUSER_PASSWORD deben estar definidas."
+            "Error: Las variables de entorno DJANGO_SUPERUSER_EMAIL, DJANGO_SUPERUSER_PASSWORD y DJANGO_SUPERUSER_USERNAME deben estar definidas."
         )
         sys.exit(1)
 
@@ -34,7 +35,7 @@ def create_superuser():
         return
 
     try:
-        User.objects.create_superuser(email=email, password=password)
+        User.objects.create_superuser(email=email, password=password, username=username)
         print(f"Superusuario creado exitosamente: {email}")
     except Exception as e:
         print(f"Error al crear superusuario: {e}")
