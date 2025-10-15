@@ -10,4 +10,5 @@ dependencies = [
     "iso4217>=1.14.20250512",
     "psycopg[binary]>=3.2.10",
     "python-dotenv>=1.1.1",
+    "whitenoise>=6.11.0",
 ]
