@@ -20,8 +20,6 @@ User = get_user_model()
 
 @receiver(post_save, sender=User, weak=False)
 def create_default_categories(sender, instance, created, **kwargs):
-    print("Creando categorías por defecto...")
-
     if not created:
         return
     
@@ -34,6 +32,3 @@ def create_default_categories(sender, instance, created, **kwargs):
                 "is_default": True,
             },
         )
-
-    print("Categorías por defecto creadas.")
-    print(f"Usuario: {instance.username}")
