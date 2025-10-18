@@ -92,7 +92,7 @@ Group=www-data
 WorkingDirectory=${PROJECT_DIR}
 EnvironmentFile=${PROJECT_DIR}/.env
 Environment="DJANGO_SETTINGS_MODULE=${SETTINGS}"
-ExecStart=${VENV_DIR}/bin/gunicorn --access-logfile - --workers 3 --bind 127.0.0.1:${PORT} money.wsgi:application
+ExecStart=${PROJECT_DIR}/.venv/bin/gunicorn --access-logfile - --workers 3 --bind 127.0.0.1:${PORT} money.wsgi:application
 Restart=on-failure
 
 [Install]
@@ -129,9 +129,15 @@ sudo rm -f /etc/nginx/sites-enabled/default || true
 
 echo "📦 Running Django migrations and collectstatic"
 cd "${PROJECT_DIR}"
+# Use .venv/bin/python since uv sync creates it
+if [ -f ".venv/bin/python" ]; then
+    UV_PYTHON=".venv/bin/python"
+else
+    UV_PYTHON="python"
+fi
 # Allow migrations to fail gracefully if DB not ready (caller can re-run)
-python manage.py migrate --noinput --settings="${SETTINGS}" || true
-python manage.py collectstatic --noinput --settings="${SETTINGS}"
+"$UV_PYTHON" manage.py migrate --noinput --settings="${SETTINGS}" || true
+"$UV_PYTHON" manage.py collectstatic --noinput --settings="${SETTINGS}"
 
 echo "🔁 Reloading system services"
 sudo systemctl daemon-reload
