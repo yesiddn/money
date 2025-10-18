@@ -16,17 +16,32 @@ jobs:
 
       - name: Build deploy archive
         run: |
-          # Create a compressed archive from the committed HEAD (recommended)
-          # This avoids 'tar: .: file changed as we read it' when files change while tar runs.
+          # Create a compressed archive from the committed HEAD and include a generated .env
           git rev-parse --verify HEAD
-          git archive --format=tar HEAD | gzip > deploy.tar.gz
+          tmpdir=$(mktemp -d)
+          # export the repo files from HEAD into tmpdir
+          git archive --format=tar HEAD | tar -x -C "$tmpdir"
 
-          # If you need to include uncommitted files (not recommended for CI),
-          # you can use a temporary clean copy and tar that instead:
-          # tmpdir=$(mktemp -d)
-          # rsync -a --exclude='.git' --exclude='.venv' --exclude='node_modules' . "$tmpdir/"
-          # tar -C "$(dirname "$tmpdir")" -czf deploy.tar.gz "$(basename "$tmpdir")"
-          # rm -rf "$tmpdir"
+          # helper to escape single quotes in secrets for safe single-quoted assignment
+          escape() { printf "%s" "$1" | sed "s/'/'\"'\"'/g"; }
+
+          # write .env into the temp dir with single-quoted values
+          envfile="$tmpdir/.env"
+          printf "POSTGRES_DB='%s'\n" "$(escape "${{ secrets.POSTGRES_DB }}")" > "$envfile"
+          printf "POSTGRES_USER='%s'\n" "$(escape "${{ secrets.POSTGRES_USER }}")" >> "$envfile"
+          printf "POSTGRES_PASSWORD='%s'\n" "$(escape "${{ secrets.POSTGRES_PASSWORD }}")" >> "$envfile"
+          printf "POSTGRES_HOST='%s'\n" "$(escape "${{ secrets.POSTGRES_HOST }}")" >> "$envfile"
+          printf "POSTGRES_PORT='%s'\n" "$(escape "${{ secrets.POSTGRES_PORT }}")" >> "$envfile"
+          printf "DJANGO_SUPERUSER_EMAIL='%s'\n" "$(escape "${{ secrets.DJANGO_SUPERUSER_EMAIL }}")" >> "$envfile"
+          printf "DJANGO_SUPERUSER_PASSWORD='%s'\n" "$(escape "${{ secrets.DJANGO_SUPERUSER_PASSWORD }}")" >> "$envfile"
+          printf "DJANGO_SUPERUSER_USERNAME='%s'\n" "$(escape "${{ secrets.DJANGO_SUPERUSER_USERNAME }}")" >> "$envfile"
+          printf "DJANGO_SECRET_KEY='%s'\n" "$(escape "${{ secrets.DJANGO_SECRET_KEY }}")" >> "$envfile"
+          printf "DJANGO_DEBUG=False\n" >> "$envfile"
+          printf "DJANGO_ALLOWED_HOSTS='%s'\n" "$(escape "${{ secrets.DJANGO_ALLOWED_HOSTS }}")" >> "$envfile"
+
+          # create tar from tmpdir
+          (cd "$tmpdir" && tar -czf /github/workspace/deploy.tar.gz .)
+          rm -rf "$tmpdir"
 
       - name: Remote healthcheck & create target dir
         uses: appleboy/ssh-action@master
@@ -67,25 +82,6 @@ jobs:
             echo "Extracting archive to $HOME/money"
             tar xzf /tmp/deploy.tar.gz -C "$HOME/money"
             rm -f /tmp/deploy.tar.gz
-
-            echo "Creating .env file..."
-            printf '%s\n' "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" > "$HOME/money/.env"
-            printf '%s\n' "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> "$HOME/money/.env"
-            printf '%s\n' "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> "$HOME/money/.env"
-            printf '%s\n' "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> "$HOME/money/.env"
-            printf '%s\n' "POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}" >> "$HOME/money/.env"
-            printf '%s\n' "DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }}" >> "$HOME/money/.env"
-            printf '%s\n' "DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}" >> "$HOME/money/.env"
-            printf '%s\n' "DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }}" >> "$HOME/money/.env"
-            printf '%s\n' "DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> "$HOME/money/.env"
-            printf '%s\n' "DJANGO_DEBUG=False" >> "$HOME/money/.env"
-            printf '%s\n' "DJANGO_ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }}" >> "$HOME/money/.env"
-
-            # Export variables for subsequent scripts
-            set -a
-            # shellcheck disable=SC1090
-            source "$HOME/money/.env"
-            set +a
 
             cd "$HOME/money"
             chmod +x ./config_django_env.sh
