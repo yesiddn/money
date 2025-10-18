@@ -142,7 +142,7 @@ else
 fi
 # Allow migrations to fail gracefully if DB not ready (caller can re-run)
 "$UV_PYTHON" manage.py migrate --noinput --settings="${SETTINGS}" || true
-"$UV_PYTHON" money/create_superuser.py
+"$UV_PYTHON" -m money.create_superuser
 "$UV_PYTHON" manage.py collectstatic --noinput --settings="${SETTINGS}"
 
 echo "� Fixing permissions for static files and project directory"
