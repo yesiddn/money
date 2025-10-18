@@ -16,8 +16,17 @@ jobs:
 
       - name: Build deploy archive
         run: |
-          # create a compressed archive excluding large or unnecessary folders
-          tar --exclude='.git' --exclude='.venv' --exclude='node_modules' --exclude='*.pyc' --exclude='__pycache__' -czf deploy.tar.gz .
+          # Create a compressed archive from the committed HEAD (recommended)
+          # This avoids 'tar: .: file changed as we read it' when files change while tar runs.
+          git rev-parse --verify HEAD
+          git archive --format=tar HEAD | gzip > deploy.tar.gz
+
+          # If you need to include uncommitted files (not recommended for CI),
+          # you can use a temporary clean copy and tar that instead:
+          # tmpdir=$(mktemp -d)
+          # rsync -a --exclude='.git' --exclude='.venv' --exclude='node_modules' . "$tmpdir/"
+          # tar -C "$(dirname "$tmpdir")" -czf deploy.tar.gz "$(basename "$tmpdir")"
+          # rm -rf "$tmpdir"
 
       - name: Remote healthcheck & create target dir
         uses: appleboy/ssh-action@master
