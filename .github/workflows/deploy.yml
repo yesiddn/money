@@ -13,8 +13,21 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Build deploy archive
+        env:
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+          DJANGO_SUPERUSER_EMAIL: ${{ secrets.DJANGO_SUPERUSER_EMAIL }}
+          DJANGO_SUPERUSER_PASSWORD: ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
+          DJANGO_SUPERUSER_USERNAME: ${{ secrets.DJANGO_SUPUSER_USERNAME }}
+          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          DJANGO_ALLOWED_HOSTS: ${{ secrets.DJANGO_ALLOWED_HOSTS }}
         run: |
           # Create a compressed archive from the committed HEAD and include a generated .env
           git rev-parse --verify HEAD
@@ -22,22 +35,19 @@ jobs:
           # export the repo files from HEAD into tmpdir
           git archive --format=tar HEAD | tar -x -C "$tmpdir"
 
-          # helper to escape single quotes in secrets for safe single-quoted assignment
-          escape() { printf "%s" "$1" | sed "s/'/'\"'\"'/g"; }
-
-          # write .env into the temp dir with single-quoted values
+          # write a .env using safe printf expansions of env variables (they are passed above)
           envfile="$tmpdir/.env"
-          printf "POSTGRES_DB='%s'\n" "$(escape "${{ secrets.POSTGRES_DB }}")" > "$envfile"
-          printf "POSTGRES_USER='%s'\n" "$(escape "${{ secrets.POSTGRES_USER }}")" >> "$envfile"
-          printf "POSTGRES_PASSWORD='%s'\n" "$(escape "${{ secrets.POSTGRES_PASSWORD }}")" >> "$envfile"
-          printf "POSTGRES_HOST='%s'\n" "$(escape "${{ secrets.POSTGRES_HOST }}")" >> "$envfile"
-          printf "POSTGRES_PORT='%s'\n" "$(escape "${{ secrets.POSTGRES_PORT }}")" >> "$envfile"
-          printf "DJANGO_SUPERUSER_EMAIL='%s'\n" "$(escape "${{ secrets.DJANGO_SUPERUSER_EMAIL }}")" >> "$envfile"
-          printf "DJANGO_SUPERUSER_PASSWORD='%s'\n" "$(escape "${{ secrets.DJANGO_SUPERUSER_PASSWORD }}")" >> "$envfile"
-          printf "DJANGO_SUPERUSER_USERNAME='%s'\n" "$(escape "${{ secrets.DJANGO_SUPERUSER_USERNAME }}")" >> "$envfile"
-          printf "DJANGO_SECRET_KEY='%s'\n" "$(escape "${{ secrets.DJANGO_SECRET_KEY }}")" >> "$envfile"
-          printf "DJANGO_DEBUG=False\n" >> "$envfile"
-          printf "DJANGO_ALLOWED_HOSTS='%s'\n" "$(escape "${{ secrets.DJANGO_ALLOWED_HOSTS }}")" >> "$envfile"
+          printf 'POSTGRES_DB=%s\n' "$POSTGRES_DB" > "$envfile"
+          printf 'POSTGRES_USER=%s\n' "$POSTGRES_USER" >> "$envfile"
+          printf 'POSTGRES_PASSWORD=%s\n' "$POSTGRES_PASSWORD" >> "$envfile"
+          printf 'POSTGRES_HOST=%s\n' "$POSTGRES_HOST" >> "$envfile"
+          printf 'POSTGRES_PORT=%s\n' "$POSTGRES_PORT" >> "$envfile"
+          printf 'DJANGO_SUPERUSER_EMAIL=%s\n' "$DJANGO_SUPERUSER_EMAIL" >> "$envfile"
+          printf 'DJANGO_SUPERUSER_PASSWORD=%s\n' "$DJANGO_SUPERUSER_PASSWORD" >> "$envfile"
+          printf 'DJANGO_SUPERUSER_USERNAME=%s\n' "$DJANGO_SUPERUSER_USERNAME" >> "$envfile"
+          printf 'DJANGO_SECRET_KEY=%s\n' "$DJANGO_SECRET_KEY" >> "$envfile"
+          printf 'DJANGO_DEBUG=False\n' >> "$envfile"
+          printf 'DJANGO_ALLOWED_HOSTS=%s\n' "$DJANGO_ALLOWED_HOSTS" >> "$envfile"
 
           # create tar from tmpdir
           (cd "$tmpdir" && tar -czf /github/workspace/deploy.tar.gz .)
