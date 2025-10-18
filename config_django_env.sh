@@ -142,9 +142,34 @@ else
 fi
 # Allow migrations to fail gracefully if DB not ready (caller can re-run)
 "$UV_PYTHON" manage.py migrate --noinput --settings="${SETTINGS}" || true
+"$UV_PYTHON" money/create_superuser.py
 "$UV_PYTHON" manage.py collectstatic --noinput --settings="${SETTINGS}"
 
-echo "🔁 Reloading system services"
+echo "� Fixing permissions for static files and project directory"
+# Ensure www-data group exists
+if ! getent group www-data >/dev/null 2>&1; then
+    echo "Warning: www-data group does not exist, using deploy user group"
+    WEB_GROUP="${DEPLOY_USER}"
+else
+    WEB_GROUP="www-data"
+fi
+
+# Set ownership of project dir and staticfiles to deploy user with www-data group
+sudo chown -R "${DEPLOY_USER}":"${WEB_GROUP}" "${PROJECT_DIR}"
+sudo chown -R "${DEPLOY_USER}":"${WEB_GROUP}" "${STATIC_ROOT}"
+
+# Project directory: allow owner full, group to read/traverse (750)
+sudo find "${PROJECT_DIR}" -type d -exec chmod 750 {} \;
+sudo find "${PROJECT_DIR}" -type f -exec chmod 640 {} \;
+
+# Staticfiles: more permissive for public assets (755 dirs, 644 files)
+sudo find "${STATIC_ROOT}" -type d -exec chmod 755 {} \;
+sudo find "${STATIC_ROOT}" -type f -exec chmod 644 {} \;
+
+# Allow nginx to traverse into home directory (add execute to "other")
+sudo chmod o+x "${HOME_DIR}" || true
+
+echo "�🔁 Reloading system services"
 sudo systemctl daemon-reload
 sudo systemctl enable gunicorn || true
 sudo systemctl restart gunicorn || true
@@ -157,11 +182,5 @@ echo "✅ Deploy completed: Gunicorn on ${PORT}, NGINX reloaded, static files in
 
 echo "🔁 Ensuring Angular dir exists and correct ownership"
 sudo mkdir -p "${ANGULAR_DIR}"
-if getent group www-data >/dev/null 2>&1; then
-    sudo chown -R "${DEPLOY_USER}":www-data "${ANGULAR_DIR}" || true
-    sudo chown -R "${DEPLOY_USER}":www-data "${STATIC_ROOT}" || true
-else
-    sudo chown -R "${DEPLOY_USER}":"${DEPLOY_USER}" "${ANGULAR_DIR}" || true
-    sudo chown -R "${DEPLOY_USER}":"${DEPLOY_USER}" "${STATIC_ROOT}" || true
-fi
+sudo chown -R "${DEPLOY_USER}":"${WEB_GROUP}" "${ANGULAR_DIR}" || true
 sudo chmod -R 755 "${ANGULAR_DIR}" || true
