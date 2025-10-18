@@ -25,7 +25,6 @@ jobs:
           POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
           DJANGO_SUPERUSER_EMAIL: ${{ secrets.DJANGO_SUPERUSER_EMAIL }}
           DJANGO_SUPERUSER_PASSWORD: ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
-          DJANGO_SUPERUSER_USERNAME: ${{ secrets.DJANGO_SUPUSER_USERNAME }}
           DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DJANGO_ALLOWED_HOSTS: ${{ secrets.DJANGO_ALLOWED_HOSTS }}
         run: |
@@ -50,7 +49,7 @@ jobs:
           printf 'DJANGO_ALLOWED_HOSTS=%s\n' "$DJANGO_ALLOWED_HOSTS" >> "$envfile"
 
           # create tar from tmpdir
-          (cd "$tmpdir" && tar -czf /github/workspace/deploy.tar.gz .)
+          (cd "$tmpdir" && tar -czf "${GITHUB_WORKSPACE}/deploy.tar.gz" .)
           rm -rf "$tmpdir"
 
       - name: Remote healthcheck & create target dir
