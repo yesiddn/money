@@ -121,6 +121,11 @@ server {
                 proxy_pass http://127.0.0.1:${PORT};
                 include proxy_params;
         }
+
+        location /admin/ {
+                proxy_pass http://127.0.0.1:${PORT};
+                include proxy_params;
+        }
 }
 EOF
 
