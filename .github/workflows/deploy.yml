@@ -11,49 +11,73 @@ jobs:
     environment: PRD
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Copy files to Azure VM
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.AZURE_VM_HOST }}
-        username: ${{ secrets.AZURE_VM_USERNAME }}
-        key: ${{ secrets.AZURE_VM_SSH_PRIVATE_KEY }}
-        port: 22
-        source: "."
-        target: "/home/ubuntu/money"
-        rm: true # Remove existing files in the target directory
+      - name: Build deploy archive
+        run: |
+          # create a compressed archive excluding large or unnecessary folders
+          tar --exclude='.git' --exclude='.venv' --exclude='node_modules' --exclude='*.pyc' --exclude='__pycache__' -czf deploy.tar.gz .
 
-    - name: Execute deployment script on Azure VM
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.AZURE_VM_HOST }}
-        username: ${{ secrets.AZURE_VM_USERNAME }}
-        key: ${{ secrets.AZURE_VM_SSH_PRIVATE_KEY }}
-        port: 22
-        script: |
-          cd /home/ubuntu/money
+      - name: Remote healthcheck & create target dir
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          username: ${{ secrets.AZURE_VM_USERNAME }}
+          key: ${{ secrets.AZURE_VM_SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            echo "remote user: $(whoami)"
+            echo "remote HOME: $HOME"
+            mkdir -p "$HOME/money"
+            ls -ld "$HOME" "$HOME/money"
 
-          echo "Creating .env file..."
-          cat << EOF > .env
-          POSTGRES_DB=${{ secrets.POSTGRES_DB }}
-          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}
-          POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}
-          DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }}
-          DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
-          DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }}
-          DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
-          DJANGO_DEBUG=False
-          DJANGO_ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }}
-          EOF
+      - name: Upload archive to VM
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          username: ${{ secrets.AZURE_VM_USERNAME }}
+          key: ${{ secrets.AZURE_VM_SSH_PRIVATE_KEY }}
+          port: 22
+          source: 'deploy.tar.gz'
+          target: '/tmp'
+          debug: true
 
-          # Source the .env file to export variables for the deploy script
-          set -a
-          source .env
-          set +a
+      - name: Extract archive and run deploy script on VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          username: ${{ secrets.AZURE_VM_USERNAME }}
+          key: ${{ secrets.AZURE_VM_SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            set -euo pipefail
+            echo "Preparing deploy directory..."
+            rm -rf "$HOME/money"
+            mkdir -p "$HOME/money"
+            echo "Extracting archive to $HOME/money"
+            tar xzf /tmp/deploy.tar.gz -C "$HOME/money"
+            rm -f /tmp/deploy.tar.gz
 
-          chmod +x deploy_django.sh
-          ./config_django_env.sh
+            echo "Creating .env file..."
+            printf '%s\n' "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" > "$HOME/money/.env"
+            printf '%s\n' "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> "$HOME/money/.env"
+            printf '%s\n' "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> "$HOME/money/.env"
+            printf '%s\n' "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> "$HOME/money/.env"
+            printf '%s\n' "POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}" >> "$HOME/money/.env"
+            printf '%s\n' "DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }}" >> "$HOME/money/.env"
+            printf '%s\n' "DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}" >> "$HOME/money/.env"
+            printf '%s\n' "DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }}" >> "$HOME/money/.env"
+            printf '%s\n' "DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> "$HOME/money/.env"
+            printf '%s\n' "DJANGO_DEBUG=False" >> "$HOME/money/.env"
+            printf '%s\n' "DJANGO_ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }}" >> "$HOME/money/.env"
+
+            # Export variables for subsequent scripts
+            set -a
+            # shellcheck disable=SC1090
+            source "$HOME/money/.env"
+            set +a
+
+            cd "$HOME/money"
+            chmod +x ./config_django_env.sh
+            ./config_django_env.sh
