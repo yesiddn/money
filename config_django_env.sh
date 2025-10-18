@@ -92,7 +92,7 @@ Group=www-data
 WorkingDirectory=${PROJECT_DIR}
 EnvironmentFile=${PROJECT_DIR}/.env
 Environment="DJANGO_SETTINGS_MODULE=${SETTINGS}"
-ExecStart=${PROJECT_DIR}/.venv/bin/gunicorn --access-logfile - --workers 3 --bind 127.0.0.1:${PORT} money.wsgi:application
+ExecStart=${VENV_DIR}/bin/gunicorn --access-logfile - --workers 3 --bind 127.0.0.1:${PORT} money.wsgi:application
 Restart=on-failure
 
 [Install]
@@ -135,8 +135,8 @@ sudo rm -f /etc/nginx/sites-enabled/default || true
 echo "📦 Running Django migrations and collectstatic"
 cd "${PROJECT_DIR}"
 # Use .venv/bin/python since uv sync creates it
-if [ -f ".venv/bin/python" ]; then
-    UV_PYTHON=".venv/bin/python"
+if [ -f "${VENV_DIR}/bin/python" ]; then
+    UV_PYTHON="${VENV_DIR}/bin/python"
 else
     UV_PYTHON="python"
 fi
@@ -154,19 +154,27 @@ else
     WEB_GROUP="www-data"
 fi
 
-# Set ownership of project dir and staticfiles to deploy user with www-data group
+# Set ownership (deploy user : web group)
 sudo chown -R "${DEPLOY_USER}":"${WEB_GROUP}" "${PROJECT_DIR}"
 sudo chown -R "${DEPLOY_USER}":"${WEB_GROUP}" "${STATIC_ROOT}"
 
-# Project directory: allow owner full, group to read/traverse (750)
-sudo find "${PROJECT_DIR}" -type d -exec chmod 750 {} \;
-sudo find "${PROJECT_DIR}" -type f -exec chmod 640 {} \;
+# Apply safe permissions but SKIP virtualenv dirs so we don't strip exec bits:
+sudo find "${PROJECT_DIR}" \( -path "${VENV_DIR}" -o -path "${PROJECT_DIR}/.venv" \) -prune -o -type d -exec chmod 750 {} \;
+sudo find "${PROJECT_DIR}" \( -path "${VENV_DIR}" -o -path "${PROJECT_DIR}/.venv" \) -prune -o -type f -exec chmod 640 {} \;
 
 # Staticfiles: more permissive for public assets (755 dirs, 644 files)
 sudo find "${STATIC_ROOT}" -type d -exec chmod 755 {} \;
 sudo find "${STATIC_ROOT}" -type f -exec chmod 644 {} \;
 
-# Allow nginx to traverse into home directory (add execute to "other")
+# Ensure virtualenv's bin scripts are executable and owned correctly
+for V in "${VENV_DIR}" "${PROJECT_DIR}/.venv"; do
+    if [ -d "${V}/bin" ]; then
+        sudo chown -R "${DEPLOY_USER}":"${WEB_GROUP}" "${V}"
+        sudo find "${V}/bin" -type f -exec chmod 755 {} \;
+    fi
+done
+
+# Allow nginx to traverse into home directory
 sudo chmod o+x "${HOME_DIR}" || true
 
 echo "�🔁 Reloading system services"
