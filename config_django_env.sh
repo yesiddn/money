@@ -1,114 +1,156 @@
-#!/bin/bash
-# Script completo para preparar entorno Django con Gunicorn, NGINX, Redis, PostgreSQL, Celery y entorno virtual
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Deploy helper script for the Money Django project.
+# - Uses the remote user's HOME to build project paths
+# - Reads credentials and secrets from environment (expects .env to be present)
+# - Creates and activates a venv, installs dependencies with `uv sync` (fallback to pip)
+# - Writes a systemd unit that uses EnvironmentFile so Gunicorn gets the .env values
 
 PROJECT_NAME="money"
-PROJECT_DIR="/home/ubuntu/${PROJECT_NAME}"
-VENV_DIR="${PROJECT_DIR}/venv"
-VENV_ACTIVATE="${VENV_DIR}/bin/activate"
-SETTINGS="money.settings"
-STATIC_ROOT="/home/ubuntu/${PROJECT_NAME}/staticfiles"
-PORT="8001"
-POSTGRES_PASSWORD="udYET3kh71kLPjqN"
-ANGULAR_DIR="/var/www/angular"
+DEPLOY_USER="${DEPLOY_USER:-${SUDO_USER:-${USER}}}"
+HOME_DIR="${HOME:-$(eval echo ~${DEPLOY_USER})}"
+PROJECT_DIR="${PROJECT_DIR:-${HOME_DIR}/${PROJECT_NAME}}"
+VENV_DIR="${VENV_DIR:-${PROJECT_DIR}/venv}"
+VENV_ACTIVATE="${VENV_ACTIVATE:-${VENV_DIR}/bin/activate}"
+SETTINGS="${SETTINGS:-money.settings}"
+STATIC_ROOT="${STATIC_ROOT:-${PROJECT_DIR}/staticfiles}"
+PORT="${PORT:-8001}"
+ANGULAR_DIR="${ANGULAR_DIR:-/var/www/angular}"
 
-echo "🔧 Corrigiendo permisos de /home/ubuntu..."
-sudo chmod o+x /home/ubuntu
+echo "Deploy user: ${DEPLOY_USER}"
+echo "Home dir: ${HOME_DIR}"
+echo "Project dir: ${PROJECT_DIR}"
 
-echo "📦 Instalando dependencias de sistema..."
+# Ensure project directory exists and is writable by the deploy user
+mkdir -p "${PROJECT_DIR}"
+PARENT_DIR=$(dirname "${PROJECT_DIR}")
+if [ -d "${PARENT_DIR}" ]; then
+    sudo chmod o+x "${PARENT_DIR}" || true
+fi
+
+echo "📦 Installing system packages (apt)..."
 sudo apt update
 sudo apt install -y nginx build-essential libpq-dev python3-dev python3-venv curl unzip
 
-echo "🐍 Creando entorno virtual en ${VENV_DIR}..."
+echo "🐍 Creating Python virtualenv in ${VENV_DIR}..."
 python3 -m venv "${VENV_DIR}"
+
+# Make sure the venv is owned by the deploy user
+sudo chown -R "${DEPLOY_USER}:${DEPLOY_USER}" "${VENV_DIR}" || true
+
+# Activate venv for subsequent python/pip commands
+# shellcheck disable=SC1090
 source "${VENV_ACTIVATE}"
 
-echo "🛠 Configurando servicio Gunicorn..."
-cat <<EOF | sudo tee /etc/systemd/system/gunicorn.service
+echo "� Ensuring pip tools are recent"
+python -m pip install --upgrade pip setuptools wheel
+
+echo "📦 Installing uv (if missing) and ensuring it is on PATH"
+if ! command -v uv >/dev/null 2>&1; then
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
+export PATH="${HOME_DIR}/.local/bin:${PATH}"
+
+cd "${PROJECT_DIR}"
+
+echo "📥 Installing project dependencies"
+if command -v uv >/dev/null 2>&1; then
+    echo "Using uv to sync dependencies"
+    uv sync --no-cache || {
+        echo "uv sync failed — attempting pip-based install from pyproject or requirements"
+        if [ -f "pyproject.toml" ]; then
+            python -m pip install .
+        elif [ -f "requirements.txt" ]; then
+            python -m pip install -r requirements.txt
+        else
+            echo "Error: no dependency manifest found (pyproject.toml or requirements.txt)."
+            exit 1
+        fi
+    }
+else
+    echo "uv not available — attempting pip-based install from pyproject or requirements"
+    if [ -f "pyproject.toml" ]; then
+        python -m pip install .
+    elif [ -f "requirements.txt" ]; then
+        python -m pip install -r requirements.txt
+    else
+        echo "Error: no dependency manifest found (pyproject.toml or requirements.txt)."
+        exit 1
+    fi
+fi
+
+echo "🛠 Writing systemd unit for Gunicorn"
+sudo tee /etc/systemd/system/gunicorn.service > /dev/null <<EOF
 [Unit]
 Description=gunicorn daemon for Money Django App
 After=network.target
 
 [Service]
-Environment="DJANGO_SETTINGS_MODULE=${SETTINGS}"
-User=ubuntu
+User=${DEPLOY_USER}
 Group=www-data
 WorkingDirectory=${PROJECT_DIR}
-ExecStart=${PROJECT_DIR}/venv/bin/gunicorn \
-  --access-logfile - \
-  --workers 3 \
-  --bind 127.0.0.1:${PORT} \
-  money.wsgi:application
+EnvironmentFile=${PROJECT_DIR}/.env
+Environment="DJANGO_SETTINGS_MODULE=${SETTINGS}"
+ExecStart=${VENV_DIR}/bin/gunicorn --access-logfile - --workers 3 --bind 127.0.0.1:${PORT} money.wsgi:application
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
-echo "📦 Instalando uv..."
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-echo "📦 Instalando dependencias del proyecto con uv..."
-export PATH="/home/ubuntu/.local/bin:$PATH"
-uv pip sync --no-cache
-
-echo "🌐 Configurando NGINX..."
+echo "🌐 Writing NGINX configuration for the project"
 sudo tee /etc/nginx/sites-available/money > /dev/null <<EOF
 server {
-    listen 80;
-    server_name _;
+        listen 80;
+        server_name _;
 
-    root /var/www/angular;
-    index index.html;
+        root /var/www/angular;
+        index index.html;
 
-    # Ruta para archivos estáticos del frontend
-    location / {
-        # Evita el paso intermedio $uri/ que provoca 301 a la versión con slash
-        try_files \$uri /index.html;
-        # (opcional) asegúrate de no listar directorios
-        autoindex off;
-    }
+        location / {
+                try_files \$uri /index.html;
+                autoindex off;
+        }
 
-    location /static/ {
-        alias ${STATIC_ROOT}/;
-    }
+        location /static/ {
+                alias ${STATIC_ROOT}/;
+        }
 
-    location /api/ {
-        proxy_pass http://127.0.0.1:${PORT};
-        include proxy_params;
-    }
+        location /api/ {
+                proxy_pass http://127.0.0.1:${PORT};
+                include proxy_params;
+        }
 }
 EOF
 
 sudo ln -sf /etc/nginx/sites-available/money /etc/nginx/sites-enabled/money
-sudo rm -f /etc/nginx/sites-enabled/default
+sudo rm -f /etc/nginx/sites-enabled/default || true
 
-echo "📦 Ejecutando collectstatic con settings: $SETTINGS"
-python "${PROJECT_DIR}/manage.py" collectstatic --noinput --settings="${SETTINGS}"
+echo "📦 Running Django migrations and collectstatic"
+cd "${PROJECT_DIR}"
+# Allow migrations to fail gracefully if DB not ready (caller can re-run)
+python manage.py migrate --noinput --settings="${SETTINGS}" || true
+python manage.py collectstatic --noinput --settings="${SETTINGS}"
 
-echo "🔁 Recargando servicios..."
+echo "🔁 Reloading system services"
 sudo systemctl daemon-reload
-sudo systemctl enable gunicorn 
-sudo systemctl restart gunicorn nginx
+sudo systemctl enable gunicorn || true
+sudo systemctl restart gunicorn || true
 
-echo "✅ Entorno listo. Gunicorn en ${PORT}, estáticos configurados."
-
-echo "🔁 Activando configuración personalizada de NGINX..."
-
-# Eliminar sitio por defecto
-sudo rm -f /etc/nginx/sites-enabled/default
-
-# Enlazar configuración de money si no existe
-if [ ! -L /etc/nginx/sites-enabled/money ]; then
-    sudo ln -s /etc/nginx/sites-available/money /etc/nginx/sites-enabled/money
-fi
-
-# Verificar sintaxis
-echo "🔍 Verificando configuración de NGINX..."
+echo "🔍 Testing NGINX config and reloading"
 sudo nginx -t
+sudo systemctl restart nginx
 
-# Recargar NGINX
-echo "🔁 Recargando NGINX..."
-sudo systemctl reload nginx
+echo "✅ Deploy completed: Gunicorn on ${PORT}, NGINX reloaded, static files in ${STATIC_ROOT}."
 
+echo "🔁 Ensuring Angular dir exists and correct ownership"
 sudo mkdir -p "${ANGULAR_DIR}"
-sudo chown -R ubuntu:www-data "${ANGULAR_DIR}"
-sudo chmod -R 755 "${ANGULAR_DIR}"
+if getent group www-data >/dev/null 2>&1; then
+    sudo chown -R "${DEPLOY_USER}":www-data "${ANGULAR_DIR}" || true
+    sudo chown -R "${DEPLOY_USER}":www-data "${STATIC_ROOT}" || true
+else
+    sudo chown -R "${DEPLOY_USER}":"${DEPLOY_USER}" "${ANGULAR_DIR}" || true
+    sudo chown -R "${DEPLOY_USER}":"${DEPLOY_USER}" "${STATIC_ROOT}" || true
+fi
+sudo chmod -R 755 "${ANGULAR_DIR}" || true
