@@ -142,6 +142,8 @@ else
 fi
 # Allow migrations to fail gracefully if DB not ready (caller can re-run)
 "$UV_PYTHON" manage.py migrate --noinput --settings="${SETTINGS}" || true
+"$UV_PYTHON" currencies/generate_currencies.py
+"$UV_PYTHON" manage.py loaddata currencies --settings="${SETTINGS}"
 "$UV_PYTHON" -m money.create_superuser
 "$UV_PYTHON" manage.py collectstatic --noinput --settings="${SETTINGS}"
 
