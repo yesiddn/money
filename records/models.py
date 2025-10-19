@@ -20,7 +20,7 @@ class Record(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="records")
     title = models.CharField(max_length=200)
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=False, default="") # for text fields, null=False avoids ambiguities
     amount = models.DecimalField(max_digits=15, decimal_places=2)
     account = models.ForeignKey("accounts.Account", on_delete=models.CASCADE)
     typeRecord = models.CharField(max_length=20, choices=RECORD_TYPES)
@@ -31,6 +31,7 @@ class Record(models.Model):
     currency = models.ForeignKey(
         "currencies.Currency", on_delete=models.SET_NULL, null=True, blank=True
     )
+    date_time = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
