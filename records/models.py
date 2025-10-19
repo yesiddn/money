@@ -31,6 +31,7 @@ class Record(models.Model):
     currency = models.ForeignKey(
         "currencies.Currency", on_delete=models.SET_NULL, null=True, blank=True
     )
+    date_time = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
