@@ -13,6 +13,7 @@ class RecordAdmin(admin.ModelAdmin):
         "category",
         "paymentType",
         "currency",
+        "date_time",
         "created_at",
     )
     list_filter = ("typeRecord", "paymentType", "currency", "created_at")
