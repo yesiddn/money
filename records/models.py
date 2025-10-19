@@ -20,7 +20,7 @@ class Record(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="records")
     title = models.CharField(max_length=200)
-    description = models.TextField(blank=True, null=False, default="") # en campos textuales, null=False evita ambigüedades
+    description = models.TextField(blank=True, null=False, default="") # for text fields, null=False avoids ambiguities
     amount = models.DecimalField(max_digits=15, decimal_places=2)
     account = models.ForeignKey("accounts.Account", on_delete=models.CASCADE)
     typeRecord = models.CharField(max_length=20, choices=RECORD_TYPES)
