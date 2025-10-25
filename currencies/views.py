@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import viewsets, permissions
+from .serializers import CurrencySerializer
+from .models import Currency
 
-# Create your views here.
+class CurrencyViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Currency.objects.all()
+    serializer_class = CurrencySerializer
+    permission_classes = [permissions.IsAuthenticated]
