@@ -14,7 +14,7 @@ class RecordSerializer(serializers.ModelSerializer):
     """
 
     user = serializers.ReadOnlyField(source="user.username")
-    account = AccountSerializer(read_only=True) # Mostrar detalles de la cuenta
+    account = AccountSerializer(read_only=True) # Show account details
     account_id = serializers.PrimaryKeyRelatedField(queryset=Account.objects.all(), write_only=True, source='account') # Asignar cuenta por su PK
     category = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(), allow_null=True, required=False
