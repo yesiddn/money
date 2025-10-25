@@ -30,4 +30,7 @@ urlpatterns = [
     path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     path("api/token/blacklist/", TokenBlacklistView.as_view(), name="token_blacklist"),
     path("api/categories/", include("categories.urls")),
+    path("api/currencies/", include("currencies.urls")),
+    path("api/accounts/", include("accounts.urls")),
+    path("api/records/", include("records.urls")),
 ]
