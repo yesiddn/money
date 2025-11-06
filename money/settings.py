@@ -48,9 +48,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Third-party apps
+    "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
+    "drf_spectacular",
     # Project apps
+    "docs",
     "currencies",
     "accounts",
     "categories",
@@ -58,6 +62,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -148,7 +153,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Money API",
+    "DESCRIPTION": "API documentation for the Money App",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": True,
+    "SCHEMA_PATH_PREFIX": r"/api/",  # le sirve a redoc para agrupar los endpoints despues de /api, como /api/users, /api/users/create, etc.
+    # OTHER SETTINGS
+}
+
+# obtiene la lista de orígenes permitidos desde una variable de entorno y si no existe, permite localhost para desarrollo
+CORS_ALLOWED_ORIGINS = (
+    os.environ.get("CORS_ALLOWED_ORIGINS", "http://localhost:4200").split(",")
+    if os.environ.get("CORS_ALLOWED_ORIGINS")
+    else ["http://localhost:4200"]
+)
