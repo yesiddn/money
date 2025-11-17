@@ -169,5 +169,5 @@ SPECTACULAR_SETTINGS = {
     # OTHER SETTINGS
 }
 
-# obtiene la lista de orígenes permitidos desde una variable de entorno y si no existe, permite localhost para desarrollo
+# Gets the list of allowed origins from an environment variable, defaults to localhost for development
 CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS", "http://localhost:4200").split(",")
