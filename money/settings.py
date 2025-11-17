@@ -165,9 +165,9 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "API documentation for the Money App",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": True,
-    "SCHEMA_PATH_PREFIX": r"/api/",  # le sirve a redoc para agrupar los endpoints despues de /api, como /api/users, /api/users/create, etc.
+    "SCHEMA_PATH_PREFIX": r"/api/",  # Groups endpoints under /api/ prefix (e.g., /api/users, /api/users/create)
     # OTHER SETTINGS
 }
 
-# obtiene la lista de orígenes permitidos desde una variable de entorno y si no existe, permite localhost para desarrollo
+# Gets the list of allowed origins from an environment variable, defaults to localhost for development
 CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS", "http://localhost:4200").split(",")
