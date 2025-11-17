@@ -165,7 +165,7 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "API documentation for the Money App",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": True,
-    "SCHEMA_PATH_PREFIX": r"/api/",  # le sirve a redoc para agrupar los endpoints despues de /api, como /api/users, /api/users/create, etc.
+    "SCHEMA_PATH_PREFIX": r"/api/",  # Groups endpoints under /api/ prefix (e.g., /api/users, /api/users/create)
     # OTHER SETTINGS
 }
 
