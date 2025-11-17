@@ -10,12 +10,24 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['username', 'email', 'first_name', 'last_name', 'password', 'confirm_password']
         extra_kwargs = {
             'password': {'write_only': True},
+            'email': {
+                'required': True,
+                'allow_blank': False,
+            }
         }
-        
+
     def validate(self, data):
         if data['password'] != data['confirm_password']:
             raise serializers.ValidationError("Passwords do not match.")
         return data
+
+    def validate_email(self, value):
+        # Valida que el email no esté en uso
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError(
+                "This email is already in use."
+            )
+        return value
 
     def create(self, validated_data):
         user = User(
