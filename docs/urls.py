@@ -1,8 +1,8 @@
 from django.urls import path
 from drf_spectacular.views import (
-  SpectacularAPIView,
-  SpectacularRedocView,
-  SpectacularSwaggerView,
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
 )
 
 urlpatterns = [
