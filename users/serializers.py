@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.models import User
 
 
@@ -19,10 +20,12 @@ class UserSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data['password'] != data['confirm_password']:
             raise serializers.ValidationError("Passwords do not match.")
+
+        validate_password(data["password"])
         return data
 
     def validate_email(self, value):
-        # Valida que el email no esté en uso
+        # Validate that the email is not already in use
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError(
                 "This email is already in use."
