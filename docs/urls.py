@@ -6,7 +6,7 @@ from drf_spectacular.views import (
 )
 
 urlpatterns = [
-    # YOUR PATTERNS
+    # API schema and documentation endpoints
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     # Optional UI:
     path(
