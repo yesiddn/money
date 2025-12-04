@@ -1,12 +1,12 @@
 from django.urls import path
 from drf_spectacular.views import (
-  SpectacularAPIView,
-  SpectacularRedocView,
-  SpectacularSwaggerView,
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
 )
 
 urlpatterns = [
-    # YOUR PATTERNS
+    # API schema and documentation endpoints
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     # Optional UI:
     path(
