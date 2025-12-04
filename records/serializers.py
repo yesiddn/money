@@ -19,7 +19,7 @@ class RecordSerializer(serializers.ModelSerializer):
     account_id = serializers.PrimaryKeyRelatedField(queryset=Account.objects.all(), write_only=True, source='account') # Assign account by its PK
     category = CategorySerializer(read_only=True)  # Show category details
     category_id = serializers.PrimaryKeyRelatedField(
-        queryset=Category.objects.all(), allow_null=True, required=False, source='category'
+        queryset=Category.objects.all(), write_only=True, source='category'
     )
     currency = serializers.PrimaryKeyRelatedField(
         queryset=Currency.objects.all(), allow_null=True, required=False
