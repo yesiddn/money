@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from categories.serializers import CategorySerializer
 from .models import Record
 from accounts.models import Account
 from categories.models import Category
@@ -16,7 +17,8 @@ class RecordSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source="user.username")
     account = AccountSerializer(read_only=True) # Mostrar detalles de la cuenta
     account_id = serializers.PrimaryKeyRelatedField(queryset=Account.objects.all(), write_only=True, source='account') # Asignar cuenta por su PK
-    category = serializers.PrimaryKeyRelatedField(
+    category = CategorySerializer(read_only=True)
+    category_id = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(), allow_null=True, required=False
     )
     currency = serializers.PrimaryKeyRelatedField(
@@ -34,6 +36,7 @@ class RecordSerializer(serializers.ModelSerializer):
             "account_id",
             "typeRecord",
             "category",
+            "category_id",
             "paymentType",
             "currency",
             "date_time",
