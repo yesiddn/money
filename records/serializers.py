@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from categories.serializers import CategorySerializer
 from .models import Record
 from accounts.models import Account
 from categories.models import Category
@@ -34,6 +35,7 @@ class RecordSerializer(serializers.ModelSerializer):
             "account_id",
             "typeRecord",
             "category",
+            "category_id",
             "paymentType",
             "currency",
             "date_time",

@@ -4,18 +4,16 @@ from django.contrib.auth.models import User
 
 class Record(models.Model):
     RECORD_TYPES = [
-        ("gasto", "Gasto"),
-        ("transferencia", "Transferencia"),
-        ("ingreso", "Ingreso"),
-        ("inversion", "Inversión"),
+        ("expense", "Expense"),
+        ("transfer", "Transfer"),
+        ("income", "Income"),
+        ("investment", "Investment"),
     ]
 
     PAYMENT_TYPES = [
-        ("transferencia", "Transferencia"),
-        ("tarjeta_debito", "Tarjeta Débito"),
-        ("tarjeta_credito", "Tarjeta Crédito"),
-        ("efectivo", "Efectivo"),
-        ("cheque", "Cheque"),
+        ("transfer", "Transfer"),
+        ("card", "Card"),
+        ("cash", "Cash"),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="records")
