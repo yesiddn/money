@@ -35,5 +35,12 @@ RUN DJANGO_SECRET_KEY=dummy python manage.py collectstatic --noinput
 # Exponer puerto
 EXPOSE 8000
 
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
+
+# ENTRYPOINT define el ejecutable que corre siempre
+ENTRYPOINT ["./entrypoint.sh"]
+
 # Comando de arranque
+# CMD pasa los argumentos al 'exec "$@"' del entrypoint
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "money.wsgi:application"]
