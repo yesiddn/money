@@ -38,6 +38,10 @@ ALLOWED_HOSTS = (
     else []
 )
 
+CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "http://localhost").split(
+    ","
+)
+
 
 # Application definition
 
