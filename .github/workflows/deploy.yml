@@ -30,8 +30,3 @@ jobs:
           tags: |
             yesiddn/money-back:latest
           platforms: linux/amd64
-
-      # Avisar a Dokploy
-      - name: Deploy to Dokploy
-        run: |
-          curl -X POST "${{ secrets.DOKPLOY_WEBHOOK_URL }}"
