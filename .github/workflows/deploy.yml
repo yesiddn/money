@@ -30,3 +30,13 @@ jobs:
           tags: |
             yesiddn/money-back:latest
           platforms: linux/amd64
+
+      - name: Deploy via Dokploy API
+        run: |
+          curl -X POST 'https://dokploy.yesiddn.cloud/api/application.deploy' \
+            -H 'accept: application/json' \
+            -H 'Content-Type: application/json' \
+            -H 'x-api-key: ${{ secrets.DOKPLOY_API_TOKEN }}' \
+            -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' \
+            -d '{ "applicationId": "${{ secrets.DOKPLOY_APP_ID }}" }'
+
