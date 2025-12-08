@@ -24,6 +24,7 @@ class StandardResultsSetPagination(LimitOffsetPagination):
                 description="Filter by record type (exact match).",
                 required=False,
                 type=OpenApiTypes.STR,
+                enum=["expense", "transfer", "income", "investment"],
                 location=OpenApiParameter.QUERY,
             ),
             OpenApiParameter(
