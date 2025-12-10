@@ -1,6 +1,8 @@
 from rest_framework import viewsets, permissions, filters
 from rest_framework.pagination import LimitOffsetPagination
-from django.utils.dateparse import parse_date
+from django.utils.dateparse import parse_date, parse_datetime
+from django.utils import timezone
+import datetime
 from .models import Record
 from .serializers import RecordSerializer
 from drf_spectacular.utils import (
@@ -76,28 +78,57 @@ class RecordViewSet(viewsets.ModelViewSet):
         if type_record:
             qs = qs.filter(typeRecord=type_record)
 
-        # Date filters: date (exact day), date_from, date_to (YYYY-MM-DD)
+        # Date filters: accept YYYY-MM-DD or full ISO datetimes with timezone
         date = self.request.query_params.get("date")
         date_from = self.request.query_params.get("date_from")
         date_to = self.request.query_params.get("date_to")
 
         if date:
-            parsed = parse_date(date)
-            if parsed:
-                qs = qs.filter(date_time__date=parsed)
+            # try YYYY-MM-DD first
+            parsed_date = parse_date(date)
+            if parsed_date:
+                qs = qs.filter(date_time__date=parsed_date)
+            else:
+                # try full ISO datetime
+                parsed_dt = parse_datetime(date)
+                if parsed_dt:
+                    dt_utc = to_utc(parsed_dt)
+                    # filter by the UTC date of the provided datetime
+                    qs = qs.filter(date_time__date=dt_utc.date())
 
         if date_from:
-            parsed = parse_date(date_from)
-            if parsed:
-                qs = qs.filter(date_time__date__gte=parsed)
+            # accept date or full datetime
+            parsed_date = parse_date(date_from)
+            if parsed_date:
+                qs = qs.filter(date_time__date__gte=parsed_date)
+            else:
+                parsed_dt = parse_datetime(date_from)
+                if parsed_dt:
+                    dt_utc = to_utc(parsed_dt)
+                    qs = qs.filter(date_time__gte=dt_utc)
 
         if date_to:
-            parsed = parse_date(date_to)
-            if parsed:
-                qs = qs.filter(date_time__date__lte=parsed)
+            parsed_date = parse_date(date_to)
+            if parsed_date:
+                qs = qs.filter(date_time__date__lte=parsed_date)
+            else:
+                parsed_dt = parse_datetime(date_to)
+                if parsed_dt:
+                    dt_utc = to_utc(parsed_dt)
+                    qs = qs.filter(date_time__lte=dt_utc)
 
         # Order newest first; fallback to created_at for deterministic order
         return qs.order_by("-date_time", "-created_at")
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+def to_utc(dt):
+    # dt is a datetime; return timezone-aware UTC datetime
+    if timezone.is_naive(dt):
+        # assume current server timezone if naive
+        aware = timezone.make_aware(dt, timezone.get_current_timezone())
+    else:
+        aware = dt
+    return aware.astimezone(datetime.timezone.utc)
