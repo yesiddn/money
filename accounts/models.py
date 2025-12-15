@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 def get_default_currency():
     from currencies.models import Currency
 
-    return Currency.objects.get(code="COP")
+    return Currency.objects.get(code="COP").code
 
 
 class Account(models.Model):
