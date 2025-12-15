@@ -12,7 +12,7 @@ class AccountSerializer(serializers.ModelSerializer):
 
     user = serializers.ReadOnlyField(source="user.username")
     currency = serializers.PrimaryKeyRelatedField(
-        queryset=Currency.objects.all(), allow_null=True, required=False
+        queryset=Currency.objects.all()
     )
 
     class Meta:
