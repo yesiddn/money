@@ -10,6 +10,7 @@ from drf_spectacular.utils import (
     extend_schema,
     OpenApiParameter,
     OpenApiTypes,
+    OpenApiExample,
 )
 
 
@@ -51,7 +52,61 @@ class StandardResultsSetPagination(LimitOffsetPagination):
                 location=OpenApiParameter.QUERY,
             ),
         ]
-    )
+    ),
+    create=extend_schema(
+        description="""
+        Crea un nuevo registro financiero.
+        
+        **Nota importante:** Los campos de tipo decimal como `amount` deben enviarse como strings 
+        para mantener precisión exacta y evitar errores de redondeo. Ejemplo: `"1500.75"` en lugar de `1500.75`.
+        """,
+        examples=[
+            OpenApiExample(
+                "Ejemplo de Gasto",
+                value={
+                    "title": "Compra supermercado",
+                    "description": "Compras mensuales",
+                    "amount": "150000.50",
+                    "account": 1,
+                    "typeRecord": "expense",
+                    "category": 1,
+                    "paymentType": "card",
+                    "currency": 1,
+                    "date_time": "2025-12-14T22:00:00-05:00",
+                },
+                request_only=True,
+            ),
+            OpenApiExample(
+                "Ejemplo de Ingreso",
+                value={
+                    "title": "Salario",
+                    "description": "Pago mensual",
+                    "amount": "3500000.00",
+                    "account": 1,
+                    "typeRecord": "income",
+                    "category": 2,
+                    "paymentType": "transfer",
+                    "currency": 1,
+                    "date_time": "2025-12-01T08:00:00-05:00",
+                },
+                request_only=True,
+            ),
+        ],
+    ),
+    update=extend_schema(
+        description="""
+        Actualiza un registro financiero existente.
+        
+        **Nota:** El campo `amount` debe enviarse como string. Ejemplo: `"1500.75"`.
+        """,
+    ),
+    partial_update=extend_schema(
+        description="""
+        Actualiza parcialmente un registro financiero.
+        
+        **Nota:** Si actualizas el campo `amount`, debe enviarse como string. Ejemplo: `"1500.75"`.
+        """,
+    ),
 )
 class RecordViewSet(viewsets.ModelViewSet):
     """ViewSet para Record.

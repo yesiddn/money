@@ -2,6 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+def get_default_currency():
+    from currencies.models import Currency
+
+    return Currency.objects.get(code="COP")
+
+
 class Record(models.Model):
     RECORD_TYPES = [
         ("expense", "Expense"),
@@ -27,7 +33,7 @@ class Record(models.Model):
     )
     paymentType = models.CharField(max_length=20, choices=PAYMENT_TYPES)
     currency = models.ForeignKey(
-        "currencies.Currency", on_delete=models.SET_NULL, null=True, blank=True
+        "currencies.Currency", on_delete=models.PROTECT, default=get_default_currency
     )
     date_time = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
