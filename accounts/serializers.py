@@ -11,9 +11,8 @@ class AccountSerializer(serializers.ModelSerializer):
     """
 
     user = serializers.ReadOnlyField(source="user.username")
-    currency = serializers.PrimaryKeyRelatedField(
-        queryset=Currency.objects.all()
-    )
+    currency = serializers.PrimaryKeyRelatedField(queryset=Currency.objects.all())
+    balance = serializers.DecimalField(max_digits=15, decimal_places=2, read_only=True)
 
     class Meta:
         model = Account
@@ -22,6 +21,7 @@ class AccountSerializer(serializers.ModelSerializer):
             "name",
             "description",
             "currency",
+            "balance",
             "created_at",
             "updated_at",
             "user",
