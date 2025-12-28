@@ -28,6 +28,33 @@ def annotate_balance(queryset):
     )
 
 
+def create_balance_adjustment_record(user, account, amount):
+    """Crea un registro de ajuste de balance.
+
+    Args:
+        user: Usuario propietario del registro
+        account: Cuenta a la que se asocia el ajuste
+        amount: Monto del ajuste (positivo para income, negativo para expense)
+    """
+    from records.models import Record
+
+    if amount == Decimal("0"):
+        return
+
+    type_record = "income" if amount > 0 else "expense"
+    Record.objects.create(
+        user=user,
+        title="Ajuste de balance",
+        description="",
+        amount=abs(amount),
+        account=account,
+        typeRecord=type_record,
+        category=None,
+        paymentType="cash",
+        currency=account.currency,
+    )
+
+
 class AccountViewSet(viewsets.ModelViewSet):
     """ViewSet para Account.
 
@@ -44,8 +71,6 @@ class AccountViewSet(viewsets.ModelViewSet):
         return annotate_balance(Account.objects.filter(user=user))
 
     def perform_create(self, serializer):
-        from records.models import Record
-
         # Extraer el balance de los datos validados
         balance = serializer.validated_data.pop("balance", None)
 
@@ -53,33 +78,8 @@ class AccountViewSet(viewsets.ModelViewSet):
         account = serializer.save(user=self.request.user)
 
         # Si se proporcionó un balance, crear un registro de ajuste
-        if balance is not None and balance != Decimal("0"):
-            if balance > 0:
-                # Balance positivo: crear registro de income
-                Record.objects.create(
-                    user=self.request.user,
-                    title="Ajuste de balance",
-                    description="",
-                    amount=abs(balance),
-                    account=account,
-                    typeRecord="income",
-                    category=None,
-                    paymentType="cash",
-                    currency=account.currency,
-                )
-            else:
-                # Balance negativo: crear registro de expense
-                Record.objects.create(
-                    user=self.request.user,
-                    title="Ajuste de balance",
-                    description="",
-                    amount=abs(balance),
-                    account=account,
-                    typeRecord="expense",
-                    category=None,
-                    paymentType="cash",
-                    currency=account.currency,
-                )
+        if balance is not None:
+            create_balance_adjustment_record(self.request.user, account, balance)
 
         # Anotar el balance en la instancia para que se incluya en la respuesta
         account_with_balance = annotate_balance(
@@ -92,8 +92,6 @@ class AccountViewSet(viewsets.ModelViewSet):
             serializer.instance = account
 
     def perform_update(self, serializer):
-        from records.models import Record
-
         # Obtener el balance enviado por el usuario
         new_balance = serializer.validated_data.pop("balance", None)
 
@@ -112,33 +110,7 @@ class AccountViewSet(viewsets.ModelViewSet):
         # Si se proporcionó un balance y es diferente al actual, crear un registro de ajuste
         if new_balance is not None and new_balance != current_balance:
             difference = new_balance - current_balance
-
-            if difference > 0:
-                # Diferencia positiva: crear registro de income
-                Record.objects.create(
-                    user=self.request.user,
-                    title="Ajuste de balance",
-                    description="",
-                    amount=abs(difference),
-                    account=account,
-                    typeRecord="income",
-                    category=None,
-                    paymentType="cash",
-                    currency=account.currency,
-                )
-            else:
-                # Diferencia negativa: crear registro de expense
-                Record.objects.create(
-                    user=self.request.user,
-                    title="Ajuste de balance",
-                    description="",
-                    amount=abs(difference),
-                    account=account,
-                    typeRecord="expense",
-                    category=None,
-                    paymentType="cash",
-                    currency=account.currency,
-                )
+            create_balance_adjustment_record(self.request.user, account, difference)
 
         # Recalcular el balance para incluirlo en la respuesta
         account_with_balance = annotate_balance(
