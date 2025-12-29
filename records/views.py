@@ -59,6 +59,10 @@ class StandardResultsSetPagination(LimitOffsetPagination):
         
         **Nota importante:** Los campos de tipo decimal como `amount` deben enviarse como strings 
         para mantener precisión exacta y evitar errores de redondeo. Ejemplo: `"1500.75"` en lugar de `1500.75`.
+        
+        **Para transferencias:** Cuando `typeRecord` es `"transfer"`, se deben proporcionar `from_account_id` 
+        (cuenta origen) y `to_account_id` (cuenta destino) en lugar de `account_id`. La transferencia 
+        resta el monto de la cuenta origen y lo suma a la cuenta destino.
         """,
         examples=[
             OpenApiExample(
@@ -67,9 +71,9 @@ class StandardResultsSetPagination(LimitOffsetPagination):
                     "title": "Compra supermercado",
                     "description": "Compras mensuales",
                     "amount": "150000.50",
-                    "account": 1,
+                    "account_id": 1,
                     "typeRecord": "expense",
-                    "category": 1,
+                    "category_id": 1,
                     "paymentType": "card",
                     "currency": 1,
                     "date_time": "2025-12-14T22:00:00-05:00",
@@ -82,12 +86,27 @@ class StandardResultsSetPagination(LimitOffsetPagination):
                     "title": "Salario",
                     "description": "Pago mensual",
                     "amount": "3500000.00",
-                    "account": 1,
+                    "account_id": 1,
                     "typeRecord": "income",
-                    "category": 2,
+                    "category_id": 2,
                     "paymentType": "transfer",
                     "currency": 1,
                     "date_time": "2025-12-01T08:00:00-05:00",
+                },
+                request_only=True,
+            ),
+            OpenApiExample(
+                "Ejemplo de Transferencia",
+                value={
+                    "title": "Transferencia entre cuentas",
+                    "description": "Mover fondos a ahorro",
+                    "amount": "500000.00",
+                    "from_account_id": 1,
+                    "to_account_id": 2,
+                    "typeRecord": "transfer",
+                    "paymentType": "transfer",
+                    "currency": 1,
+                    "date_time": "2025-12-15T10:00:00-05:00",
                 },
                 request_only=True,
             ),
@@ -98,6 +117,9 @@ class StandardResultsSetPagination(LimitOffsetPagination):
         Actualiza un registro financiero existente.
         
         **Nota:** El campo `amount` debe enviarse como string. Ejemplo: `"1500.75"`.
+        
+        **Para transferencias:** Si el registro es de tipo `"transfer"`, usar `from_account_id` y 
+        `to_account_id` en lugar de `account_id`.
         """,
     ),
     partial_update=extend_schema(
@@ -105,6 +127,9 @@ class StandardResultsSetPagination(LimitOffsetPagination):
         Actualiza parcialmente un registro financiero.
         
         **Nota:** Si actualizas el campo `amount`, debe enviarse como string. Ejemplo: `"1500.75"`.
+        
+        **Para transferencias:** Si el registro es de tipo `"transfer"`, usar `from_account_id` y 
+        `to_account_id` en lugar de `account_id`.
         """,
     ),
 )

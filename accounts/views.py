@@ -1,31 +1,96 @@
 from decimal import Decimal
 
-from django.db.models import DecimalField, Q, Sum, Value
+from django.db.models import DecimalField, OuterRef, Q, Subquery, Sum, Value
 from django.db.models.functions import Coalesce
 from rest_framework import permissions, viewsets
 
 from .models import Account
 from .serializers import AccountSerializer
 
+# Constantes para el cálculo de balance
+ZERO_DECIMAL = Value(0, output_field=DecimalField(max_digits=15, decimal_places=2))
+
+
+def _subquery_income():
+    """Subquery para sumar ingresos de una cuenta."""
+    from records.models import Record
+
+    return Subquery(
+        Record.objects.filter(
+            account=OuterRef("pk"),
+            typeRecord="income",
+        )
+        .values("account")
+        .annotate(total=Sum("amount"))
+        .values("total")[:1]
+    )
+
+
+def _subquery_expenses_and_investments():
+    """Subquery para sumar gastos e inversiones de una cuenta."""
+    from records.models import Record
+
+    return Subquery(
+        Record.objects.filter(
+            account=OuterRef("pk"),
+            typeRecord__in=["expense", "investment"],
+        )
+        .values("account")
+        .annotate(total=Sum("amount"))
+        .values("total")[:1]
+    )
+
+
+def _subquery_transfers_received():
+    """Subquery para sumar transferencias recibidas (to_account)."""
+    from records.models import Record
+
+    return Subquery(
+        Record.objects.filter(
+            to_account=OuterRef("pk"),
+            typeRecord="transfer",
+        )
+        .values("to_account")
+        .annotate(total=Sum("amount"))
+        .values("total")[:1]
+    )
+
+
+def _subquery_transfers_sent():
+    """Subquery para sumar transferencias enviadas (from_account)."""
+    from records.models import Record
+
+    return Subquery(
+        Record.objects.filter(
+            from_account=OuterRef("pk"),
+            typeRecord="transfer",
+        )
+        .values("from_account")
+        .annotate(total=Sum("amount"))
+        .values("total")[:1]
+    )
+
 
 def annotate_balance(queryset):
     """Anota el balance calculado a un queryset de Account.
 
-    Balance = Ingresos - (Gastos + Transferencias + Inversiones)
+    Balance = Ingresos - (Gastos + Inversiones) + Transferencias recibidas - Transferencias enviadas
+
+    Para transferencias:
+    - Las transferencias salientes (from_account) reducen el balance
+    - Las transferencias entrantes (to_account) aumentan el balance
+
+    Nota:
+    - Los registros de tipo income, expense, investment usan el campo 'account'
+    - Los registros de tipo transfer usan 'from_account' y 'to_account'
     """
-    return queryset.annotate(
-        balance=Coalesce(
-            Sum("record__amount", filter=Q(record__typeRecord="income")),
-            Value(0, output_field=DecimalField(max_digits=15, decimal_places=2)),
-        )
-        - Coalesce(
-            Sum(
-                "record__amount",
-                filter=Q(record__typeRecord__in=["expense", "transfer", "investment"]),
-            ),
-            Value(0, output_field=DecimalField(max_digits=15, decimal_places=2)),
-        )
-    )
+    income = Coalesce(_subquery_income(), ZERO_DECIMAL)
+    expenses = Coalesce(_subquery_expenses_and_investments(), ZERO_DECIMAL)
+    transfers_in = Coalesce(_subquery_transfers_received(), ZERO_DECIMAL)
+    transfers_out = Coalesce(_subquery_transfers_sent(), ZERO_DECIMAL)
+
+    result = queryset.annotate(balance=income - expenses + transfers_in - transfers_out).order_by("created_at")
+    return result
 
 
 def create_balance_adjustment_record(user, account, amount):
