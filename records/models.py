@@ -24,9 +24,32 @@ class Record(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="records")
     title = models.CharField(max_length=200)
-    description = models.TextField(blank=True, null=False, default="") # for text fields, null=False avoids ambiguities
+    description = models.TextField(
+        blank=True, null=False, default=""
+    )  # for text fields, null=False avoids ambiguities
     amount = models.DecimalField(max_digits=15, decimal_places=2)
-    account = models.ForeignKey("accounts.Account", on_delete=models.CASCADE)
+    account = models.ForeignKey(
+        "accounts.Account",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="records",
+    )
+    # For transfer records: specify source and destination accounts
+    from_account = models.ForeignKey(
+        "accounts.Account",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="transfers_from",
+    )
+    to_account = models.ForeignKey(
+        "accounts.Account",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="transfers_to",
+    )
     typeRecord = models.CharField(max_length=20, choices=RECORD_TYPES)
     category = models.ForeignKey(
         "categories.Category", on_delete=models.SET_NULL, null=True, blank=True
